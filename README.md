@@ -1,38 +1,45 @@
-# UxPlay-docker
-[![docker-hub Actions Status](https://github.com/dachack/uxplay-docker/workflows/docker-hub/badge.svg)](https://github.com/dachack/uxplay-docker/actions)
+# FritzPCAP-docker
+[![docker-hub Actions Status](https://github.com/dachack/fritzpcap-docker/workflows/docker-hub/badge.svg)](https://github.com/dachack/fritzpcap-docker/actions)
 
-Run [UxPlay](https://github.com/FDH2/UxPlay) on latest Debian:Testing in Docker
+Self-hosted home network traffic monitoring with ntopng and a Fritz!Box
 
-Thanks to the great community around UxPlay for this tool! This repo is just a wrapper to provide a docker container.
+Thanks to Davide Quaranta for coming up with the idea and basically preparing all scripts ready to use.
+I only provided the docker container.
 
 ## Image on Docker Hub
-https://hub.docker.com/r/dachack/uxplay
+https://hub.docker.com/r/dachack/fritzpcap
 
 ## Sources in Github
-https://github.com/DaCHack/uxplay-docker
-
-## Host Requirements
-- Avahi daemon installed on host
+https://github.com/DaCHack/fritzpcap-docker
 
 ## Docker-compose
+Either use the container standalone or together with ntopng as in the example below:
 ```
 services:
-  uxplay:
-    image: dachack/uxplay
-    container_name: "uxplay"
-    tty: true
-    restart: unless-stopped
-    network_mode: "host"
-    devices:
-      - '/dev/fb0:/dev/fb0'
-      - '/dev/snd:/dev/snd'
-#      - '/dev/dri:/dev/dri'  Using the gpu's rendering device causes stuttering and error message:
-#                             ** (gst-plugin-scanner:7): CRITICAL **: 22:30:24.832: _dma_fmt_to_dma_drm_fmts: assertion 'fmt != GST_VIDEO_FORMAT_UNKNOWN' failed
-
+  ntopng:
+    container_name: ntopng
+    image: ntop/ntopng
     volumes:
-      - '/var/run/dbus:/var/run/dbus'
-      - '/var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket'
-      - '/run:/run'
-    # Tailor command based on UxPlay documentation
-    command: 'uxplay -n Homeserver -nh -s 1920x1080 -dacp -nohold -vs "fbdevsink device=/dev/fb0" -as "alsasink device=plughw:1,3"'
+      - /opt/appdata/ntopng/data:/var/lib/ntopng
+      - /opt/appdata/ntopng/pcap:/pcap
+      - /opt/appdata/ntopng/ntopng.conf:/ntopng.conf:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Berlin
+    command:
+      - "/ntopng.conf"
+    ports:
+      - 3000
+    restart: unless-stopped
+
+  fritzpcap:
+    build: ./fritzpcap
+    environment:
+      - FRITZIP=http://fritz.box
+      - FRITZUSER={{ fritz.username }}
+      - FRITZPWD={{ fritz.password }}
+    volumes:
+      - /opt/appdata/ntopng/pcap:/pcap
+    restart: unless-stopped
 ```
