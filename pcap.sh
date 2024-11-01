@@ -35,7 +35,7 @@ echo "Login successful"
 echo "Creating pipes"
 rm -f pcap/*
 #mkfifo pcap/eth0 pcap/eth2 pcap/eth3 pcap/ath0 pcap/ath1
-mkfifo pcap/lan pcap/ath0
+mkfifo pcap/eth0 pcap/eth1 pcap/eth2 pcap/eth3 pcap/ath0
 
 echo "Starting packet capture on the pipes: $(ls pcap | xargs echo)"
 wget --no-check-certificate -qO- $FRITZIP/cgi-bin/capture_notimeout?ifaceorminor=1-eth0\&snaplen=\&capture=Start\&sid=$SID > pcap/eth0 &
