@@ -7,10 +7,10 @@ name: docker-hub
 on:
   schedule:
     - cron: '23 11 * * *'
-  push:
-    branches: [ "master" ]
+#  push:
+#    branches: [ "master" ]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+#    tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ "master" ]
 
@@ -53,11 +53,11 @@ jobs:
           file: ./Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64,linux/386,linux/arm/v7
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/uxplay:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/fritzpcap:latest
       -
         name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v2
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          DOCKERHUB_REPOSITORY:  ${{ secrets.DOCKER_HUB_USERNAME }}/uxplay
+          DOCKERHUB_REPOSITORY:  ${{ secrets.DOCKER_HUB_USERNAME }}/fritzpcap
