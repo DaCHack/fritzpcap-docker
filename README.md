@@ -19,6 +19,8 @@ services:
   ntopng:
     container_name: ntopng
     image: ntop/ntopng
+    depends_on:
+      - fritzpcap
     volumes:
       - /opt/appdata/ntopng/data:/var/lib/ntopng
       - /opt/appdata/ntopng/pcap:/pcap
