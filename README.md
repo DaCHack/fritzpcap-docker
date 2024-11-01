@@ -43,3 +43,11 @@ services:
       - /opt/appdata/ntopng/pcap:/pcap
     restart: unless-stopped
 ```
+
+## Configure ntopng via `/ntopng.conf`
+```
+-i=/pcap/ath0
+-i=/pcap/lan
+--local-networks="192.168.1.0/24"
+--community
+```
