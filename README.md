@@ -18,9 +18,7 @@ Either use the container standalone or together with ntopng as in the example be
 services:
   ntopng:
     container_name: ntopng
-    image: ntop/ntopng
-    depends_on:
-      - fritzpcap
+    image: ntop/ntopng:stable
     volumes:
       - /opt/appdata/ntopng/data:/var/lib/ntopng
       - /opt/appdata/ntopng/pcap:/pcap
@@ -34,6 +32,8 @@ services:
     ports:
       - 3000
     restart: unless-stopped
+    depends_on:
+      - fritzpcap
 
   fritzpcap:
     build: ./fritzpcap
