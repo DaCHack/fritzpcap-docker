@@ -3,7 +3,7 @@
 
 Self-hosted home network traffic monitoring with ntopng and a Fritz!Box
 
-Thanks to Davide Quaranta for coming up with the idea and basically preparing all scripts ready to use.
+Thanks to [Davide Quaranta](https://davquar.it/post/self-hosting/ntopng-fritzbox-monitoring/) for coming up with the idea and basically preparing all scripts ready to use.
 I only provided the docker container.
 
 ## Image on Docker Hub
