@@ -35,16 +35,11 @@ echo "Login successful"
 echo "Creating pipes"
 rm -f pcap/*
 #mkfifo pcap/eth0 pcap/eth2 pcap/eth3 pcap/ath0 pcap/ath1
-mkfifo pcap/eth0 pcap/eth1 pcap/eth2 pcap/eth3 pcap/ath0
+mkfifo pcap/lan
 
 echo "Starting packet capture on the pipes: $(ls pcap | xargs echo)"
-wget --no-check-certificate -qO- $FRITZIP/cgi-bin/capture_notimeout?ifaceorminor=1-eth0\&snaplen=\&capture=Start\&sid=$SID > pcap/eth0 &
-wget --no-check-certificate -qO- $FRITZIP/cgi-bin/capture_notimeout?ifaceorminor=1-eth0\&snaplen=\&capture=Start\&sid=$SID > pcap/eth1 &
-wget --no-check-certificate -qO- $FRITZIP/cgi-bin/capture_notimeout?ifaceorminor=1-eth2\&snaplen=\&capture=Start\&sid=$SID > pcap/eth2 &
-wget --no-check-certificate -qO- $FRITZIP/cgi-bin/capture_notimeout?ifaceorminor=1-eth3\&snaplen=\&capture=Start\&sid=$SID > pcap/eth3 &
-wget --no-check-certificate -qO- $FRITZIP/cgi-bin/capture_notimeout?ifaceorminor=4-133\&snaplen=\&capture=Start\&sid=$SID > pcap/ath0 &
-#wget --no-check-certificate -qO- $FRITZIP/cgi-bin/capture_notimeout?ifaceorminor=4-133\&snaplen=\&capture=Start\&sid=$SID > pcap/lan &
-#wget --no-check-certificate -qO- $FRITZIP/cgi-bin/capture_notimeout?ifaceorminor=4-135\&snaplen=\&capture=Start\&sid=$SID > pcap/ath1 &
+wget --no-check-certificate -qO- $FRITZIP/cgi-bin/capture_notimeout?ifaceorminor=1-lan\&snaplen=\&capture=Start\&sid=$SID > pcap/lan &
+#wget --no-check-certificate -qO- $FRITZIP/cgi-bin/capture_notimeout?ifaceorminor=4-133\&snaplen=\&capture=Start\&sid=$SID > pcap/ath0 &
 
 echo "Capturing... (barrier reached)"
 
