@@ -65,8 +65,8 @@ if [[ "$resp" =~ \<SID\>(0+)\</SID\> ]]; then
     # replace all Unicode codepoints >255 by '.' because of a bug in the Fritz!Box.
     # Newer Fritz!Box OS versions don't allow to enter such characters.
     # This requires that the locale environment is setup to UTF8, but on my Mac this doesn't work
-    #FRITZ_PASSWORD=$(export LC_CTYPE=UTF-8 ; echo "${FRITZ_PASSWORD}" | sed $'s/[\u0100-\U0010ffff]/./g')
-    #FRITZ_PASSWORD=$(export LC_CTYPE=UTF-8 ; echo "${FRITZ_PASSWORD}" | tr $'\u0100-\U0010ffff' '.')
+    FRITZ_PASSWORD=$(export LC_CTYPE=UTF-8 ; echo "${FRITZ_PASSWORD}" | sed $'s/[\u0100-\U0010ffff]/./g')
+    FRITZ_PASSWORD=$(export LC_CTYPE=UTF-8 ; echo "${FRITZ_PASSWORD}" | tr $'\u0100-\U0010ffff' '.')
 
     if which >/dev/null 2>&1 md5; then
       MD5=$(echo -n "${CHALLENGE}-${FRITZBOX_PASSWORD}" | iconv --from-code=UTF-8 --to-code=UTF-16LE | md5)
