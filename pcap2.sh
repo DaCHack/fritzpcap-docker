@@ -110,8 +110,4 @@ mkfifo $FIFO
 trap "rm -f $FIFO" EXIT
 
 curl --insecure --silent --no-buffer --output $FIFO \
-  "$FRITZBOX_URL/cgi-bin/capture_notimeout?ifaceorminor=$FRITZBOX_INTERFACE&snaplen=&capture=Start&sid=$SID" &
-
-# I didn't manage to connect the curl and the docker directly so that the data would stream into ntopng. The FIFO is my workaround.
-
-echo "Press Ctrl-C to stop capturing and exit" 1>&2
+  "$FRITZBOX_URL/cgi-bin/capture_notimeout?ifaceorminor=$FRITZBOX_INTERFACE&snaplen=&capture=Start&sid=$SID"
