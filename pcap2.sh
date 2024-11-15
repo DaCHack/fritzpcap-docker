@@ -68,6 +68,8 @@ if [[ "$resp" =~ \<SID\>(0+)\</SID\> ]]; then
     FRITZ_PASSWORD=$(export LC_CTYPE=UTF-8 ; echo "${FRITZ_PASSWORD}" | sed $'s/[\u0100-\U0010ffff]/./g')
     FRITZ_PASSWORD=$(export LC_CTYPE=UTF-8 ; echo "${FRITZ_PASSWORD}" | tr $'\u0100-\U0010ffff' '.')
 
+    echo -n "${CHALLENGE}-${FRITZBOX_PASSWORD}"
+
     if which >/dev/null 2>&1 md5; then
       MD5=$(echo -n "${CHALLENGE}-${FRITZBOX_PASSWORD}" | iconv --from-code=UTF-8 --to-code=UTF-16LE | md5)
     elif which >/dev/null 2>&1 md5sum; then
