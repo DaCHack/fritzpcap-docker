@@ -1,6 +1,6 @@
 FROM alpine:3.17
 
-RUN apk add wget curl perl bash iconv && \
+RUN apk add wget curl perl bash && \
     mkdir /pcap
 COPY pcap2.sh /pcap2.sh
 
